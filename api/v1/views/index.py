@@ -19,6 +19,8 @@ def stats():
     """
     cls_list = ["Amenity", "City", "Place",
                 "Review", "State", "User"]
+    cls_output = ["amenities", "cities", "places",
+                  "reviews", "states", "users"]
     cls_count = {}
     for cls in cls_list:
         cls_count[cls] = storage.count(cls)
