@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+Index file of app
+"""
 from api.v1.views import app_views
 from flask import jsonify
 from models import storage
