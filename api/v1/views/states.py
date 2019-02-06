@@ -42,8 +42,7 @@ def post_state():
     request_dict = request.get_json()
     if not request_dict:
         abort(400)
-    state_name = request_dict["name"]
-    if not state_name:
+    if "name" not in request_dict:
         abort(400)
     obj = State(**request_dict)
     obj.save()
