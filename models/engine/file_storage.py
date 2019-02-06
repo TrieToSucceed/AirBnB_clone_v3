@@ -71,13 +71,13 @@ class FileStorage:
         self.reload()
 
     def get(self, cls, id):
-        """                                                                                     
-        A method to retrieve one class object                                                   
-        Args:                                                                                   
-            cls: string representing the class name                                             
-            id: string representing the object ID                                               
-        Return:                                                                                 
-            Returns the object based on the class name and its ID, or None if not found         
+        """A method to retrieve one class object
+        Args:
+            cls: string representing the class name
+            id: string representing the object ID
+        Return:
+            Returns the object based on the class name and its ID, or
+            None if not found
         """
         key = "{}.{}".format(cls, id)
         obj_dict = self.all()
@@ -88,8 +88,8 @@ class FileStorage:
         Args:
             cls: string representing the class name (optional)
         Return:
-            Returns the number of objects in storage matching the given class name.
-            otherwise, return the count of all objects in storage
+            Returns the number of objects in storage matching the given class
+            name. otherwise, return the count of all objects in storage
         """
         if cls:
             return len(self.all(cls))
