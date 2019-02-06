@@ -7,6 +7,7 @@ from datetime import datetime
 import inspect
 import models
 from models.engine import file_storage
+from models import storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.city import City
@@ -113,3 +114,51 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    def test_get_state(self):
+        """Test get method that retrieve one class object"""
+        state = State()
+        state.name = "ca"
+        state.save()
+        obj = storage.get("State", state.id)
+        self.assertEqual(state, obj)
+
+    def test_get_city(self):
+        """Test get method that retrieve one class object"""
+        city = City()
+        city.name = "sf"
+        city.save()
+        obj = storage.get("City", city.id)
+        self.assertEqual(city, obj)
+
+    def test_get_user(self):
+        """Test get method that retrieve one class object"""
+        user = User()
+        user.name = "ca"
+        user.save()
+        obj = storage.get("User", user.id)
+        self.assertEqual(user, obj)
+
+    def test_get_place(self):
+        """Test get method that retrieve one class object"""
+        new = Place()
+        new.name = "ca"
+        new.save()
+        obj = storage.get("Place", new.id)
+        self.assertEqual(new, obj)
+
+    def test_get_review(self):
+        """Test get method that retrieve one class object"""
+        new = Review()
+        new.name = "ca"
+        new.save()
+        obj = storage.get("Review", new.id)
+        self.assertEqual(new, obj)
+
+    def test_get_amenity(self):
+        """Test get method that retrieve one class object"""
+        new = Amenity()
+        new.name = "ca"
+        new.save()
+        obj = storage.get("Amenity", new.id)
+        self.assertEqual(new, obj)
