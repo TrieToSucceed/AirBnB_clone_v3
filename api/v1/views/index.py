@@ -19,7 +19,9 @@ def stats():
     """
     cls_list = ["Amenity", "City", "Place",
                 "Review", "State", "User"]
+    cls_output = ["amenities", "cities", "places",
+                  "reviews", "states", "users"]
     cls_count = {}
-    for cls in cls_list:
-        cls_count[cls] = storage.count(cls)
+    for index in range(len(cls_list)):
+        cls_count[cls_output[index]] = storage.count(cls_list[index])
     return jsonify(cls_count)
