@@ -26,6 +26,12 @@ classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
 
 class TestFileStorageDocs(unittest.TestCase):
     """Tests to check the documentation and style of FileStorage class"""
+    def tearDown(self):
+        """ teardown tests """
+        all_objs = storage.all()
+        all_objs.clear()
+        storage.save()
+
     @classmethod
     def setUpClass(cls):
         """Set up for the doc tests"""
@@ -162,3 +168,50 @@ class TestFileStorage(unittest.TestCase):
         new.save()
         obj = storage.get("Amenity", new.id)
         self.assertEqual(new, obj)
+
+    def test_count(self):
+        """test count method that count the number of object of
+        each class"""
+        count = storage.count()
+        self.assertEqual(count, 0)
+        obj = State()
+        obj.save()
+        count = storage.count()
+        count_obj = storage.count("State")
+        self.assertEqual(count, 1)
+        self.assertEqual(count_obj, 1)
+
+        obj = City()
+        obj.save()
+        count = storage.count()
+        count_obj = storage.count("City")
+        self.assertEqual(count, 2)
+        self.assertEqual(count_obj, 1)
+
+        obj = User()
+        obj.save()
+        count = storage.count()
+        count_obj = storage.count("User")
+        self.assertEqual(count, 3)
+        self.assertEqual(count_obj, 1)
+
+        obj = Place()
+        obj.save()
+        count = storage.count()
+        count_obj = storage.count("Place")
+        self.assertEqual(count, 4)
+        self.assertEqual(count_obj, 1)
+
+        obj = Review()
+        obj.save()
+        count = storage.count()
+        count_obj = storage.count("Review")
+        self.assertEqual(count, 5)
+        self.assertEqual(count_obj, 1)
+
+        obj = Amenity()
+        obj.save()
+        count = storage.count()
+        count_obj = storage.count("Amenity")
+        self.assertEqual(count, 6)
+        self.assertEqual(count_obj, 1)
