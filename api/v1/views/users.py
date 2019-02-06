@@ -63,4 +63,5 @@ def put_user(user_id):
     for key, value in request_dict.items():
         if key not in ['id', 'email', 'created_at', 'updated_at']:
             setattr(obj, key, value)
+    obj.save()
     return jsonify(obj.to_dict()), 200

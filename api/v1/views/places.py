@@ -52,13 +52,15 @@ def delete_place(place_id):
                  methods=['POST'])
 def post_place(city_id):
     """create city instance"""
+    if not storage.get("City", city_id):
+        abort(404)
     request_dict = request.get_json()
     if not request_dict:
         abort(400, {"message": "Not a JSON"})
     if "user_id" not in request_dict:
         abort(400, {"message": "Missing user_id"})
     if not storage.get("User", request_dict['user_id']):
-        abort(400)
+        abort(404)
     if "name" not in request_dict:
         abort(400, {"message": "Missing name"})
     obj = Place(**request_dict)
