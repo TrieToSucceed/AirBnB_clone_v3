@@ -77,6 +77,12 @@ test_file_storage.py'])
 
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
+    def tearDown(self):
+        """ teardown tests """
+        all_objs = storage.all()
+        all_objs.clear()
+        storage.save()
+
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_all_returns_dict(self):
         """Test that all returns the FileStorage.__objects attr"""
@@ -121,6 +127,7 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
 
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get_state(self):
         """Test get method that retrieve one class object"""
         state = State()
@@ -129,6 +136,7 @@ class TestFileStorage(unittest.TestCase):
         obj = storage.get("State", state.id)
         self.assertEqual(state, obj)
 
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get_city(self):
         """Test get method that retrieve one class object"""
         city = City()
@@ -137,6 +145,7 @@ class TestFileStorage(unittest.TestCase):
         obj = storage.get("City", city.id)
         self.assertEqual(city, obj)
 
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get_user(self):
         """Test get method that retrieve one class object"""
         user = User()
@@ -145,6 +154,7 @@ class TestFileStorage(unittest.TestCase):
         obj = storage.get("User", user.id)
         self.assertEqual(user, obj)
 
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get_place(self):
         """Test get method that retrieve one class object"""
         new = Place()
@@ -153,6 +163,7 @@ class TestFileStorage(unittest.TestCase):
         obj = storage.get("Place", new.id)
         self.assertEqual(new, obj)
 
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get_review(self):
         """Test get method that retrieve one class object"""
         new = Review()
@@ -161,6 +172,7 @@ class TestFileStorage(unittest.TestCase):
         obj = storage.get("Review", new.id)
         self.assertEqual(new, obj)
 
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get_amenity(self):
         """Test get method that retrieve one class object"""
         new = Amenity()
@@ -169,6 +181,7 @@ class TestFileStorage(unittest.TestCase):
         obj = storage.get("Amenity", new.id)
         self.assertEqual(new, obj)
 
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count(self):
         """test count method that count the number of object of
         each class"""
