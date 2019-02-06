@@ -96,6 +96,7 @@ class TestFileStorage(unittest.TestCase):
         state.save()
         obj = storage.get("State", state.id)
         self.assertEqual(state, obj)
+        storage.delete(obj)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get_city(self):
@@ -105,6 +106,7 @@ class TestFileStorage(unittest.TestCase):
         city.save()
         obj = storage.get("City", city.id)
         self.assertEqual(city, obj)
+        storage.delete(obj)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get_user(self):
@@ -114,6 +116,7 @@ class TestFileStorage(unittest.TestCase):
         user.save()
         obj = storage.get("User", user.id)
         self.assertEqual(user, obj)
+        storage.delete(obj)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get_place(self):
@@ -123,6 +126,7 @@ class TestFileStorage(unittest.TestCase):
         new.save()
         obj = storage.get("Place", new.id)
         self.assertEqual(new, obj)
+        storage.delete(obj)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get_review(self):
@@ -132,6 +136,7 @@ class TestFileStorage(unittest.TestCase):
         new.save()
         obj = storage.get("Review", new.id)
         self.assertEqual(new, obj)
+        storage.delete(obj)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get_amenity(self):
@@ -154,37 +159,44 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(count, 1)
         self.assertEqual(count_obj, 1)
 
-        obj = City()
-        obj.save()
+        obj1 = City()
+        obj1.save()
         count = storage.count()
         count_obj = storage.count("City")
         self.assertEqual(count, 2)
         self.assertEqual(count_obj, 1)
 
-        obj = User()
-        obj.save()
+        obj2 = User()
+        obj2.save()
         count = storage.count()
         count_obj = storage.count("User")
         self.assertEqual(count, 3)
         self.assertEqual(count_obj, 1)
 
-        obj = Place()
-        obj.save()
+        obj3 = Place()
+        obj3.save()
         count = storage.count()
         count_obj = storage.count("Place")
         self.assertEqual(count, 4)
         self.assertEqual(count_obj, 1)
 
-        obj = Review()
-        obj.save()
+        obj4 = Review()
+        obj4.save()
         count = storage.count()
         count_obj = storage.count("Review")
         self.assertEqual(count, 5)
         self.assertEqual(count_obj, 1)
 
-        obj = Amenity()
-        obj.save()
+        obj5 = Amenity()
+        obj5.save()
         count = storage.count()
         count_obj = storage.count("Amenity")
         self.assertEqual(count, 6)
         self.assertEqual(count_obj, 1)
+
+        storage.delete(obj)
+        storage.delete(obj1)
+        storage.delete(obj2)
+        storage.delete(obj3)
+        storage.delete(obj4)
+        storage.delete(obj5)
