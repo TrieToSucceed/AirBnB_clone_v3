@@ -91,17 +91,20 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get_state(self):
         """Test get method that retrieve one class object"""
-        state = State()
-        state.name = "ca"
+        state = State(name="ca")
         state.save()
         obj = storage.get("State", state.id)
         self.assertEqual(state, obj)
+        self.assertEqual(state.name, obj.name)
         storage.delete(obj)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get_city(self):
         """Test get method that retrieve one class object"""
-        city = City()
+        state = State(name="ca")
+        state.save()
+        d = {'name': 'ca',  "state_id": state.id}
+        city = City(**d)
         city.name = "sf"
         city.save()
         obj = storage.get("City", city.id)
@@ -111,8 +114,8 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get_user(self):
         """Test get method that retrieve one class object"""
-        user = User()
-        user.name = "ca"
+        d = {'email': 'ca', 'password': '123'}
+        user = User(**d)
         user.save()
         obj = storage.get("User", user.id)
         self.assertEqual(user, obj)
@@ -121,82 +124,89 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get_place(self):
         """Test get method that retrieve one class object"""
-        new = Place()
-        new.name = "ca"
-        new.save()
-        obj = storage.get("Place", new.id)
-        self.assertEqual(new, obj)
+        d = {'email': 'ca', 'password': '123'}
+        user = User(**d)
+        user.save()
+        state = State(name="ca")
+        state.save()
+        d = {'name': 'ca',  "state_id": state.id}
+        city = City(**d)
+        city.name = "sf"
+        city.save()
+        d = {'name': 'ca', 'user_id': user.id, 'city_id': city.id}
+        place = Place(**d)
+        place.name = "ca"
+        place.save()
+        obj = storage.get("Place", place.id)
+        self.assertEqual(place, obj)
         storage.delete(obj)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get_review(self):
         """Test get method that retrieve one class object"""
-        new = Review()
-        new.name = "ca"
-        new.save()
-        obj = storage.get("Review", new.id)
-        self.assertEqual(new, obj)
+        d = {'email': 'ca', 'password': '123'}
+        user = User(**d)
+        user.save()
+        state = State(name="ca")
+        state.save()
+        d = {'name': 'ca',  "state_id": state.id}
+        city = City(**d)
+        city.name = "sf"
+        city.save()
+        d = {'name': 'ca', 'user_id': user.id, 'city_id': city.id}
+        place = Place(**d)
+        place.name = "ca"
+        place.save()
+        d = {'text': 'ca', 'user_id': user.id, 'place_id': place.id}
+        review = Review(**d)
+        review.name = "ca"
+        review.save()
+        obj = storage.get("Review", review.id)
+        self.assertEqual(review, obj)
         storage.delete(obj)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get_amenity(self):
         """Test get method that retrieve one class object"""
-        new = Amenity()
-        new.name = "ca"
+        new = Amenity(name='ca')
         new.save()
         obj = storage.get("Amenity", new.id)
         self.assertEqual(new, obj)
+        storage.delete(obj)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_count(self):
+    def test_count_state(self):
         """test count method that count the number of object of each class"""
-        count = storage.count()
-        self.assertEqual(count, 0)
-        obj = State()
+        obj = State(name="ca")
         obj.save()
-        count = storage.count()
-        count_obj = storage.count("State")
-        self.assertEqual(count, 1)
-        self.assertEqual(count_obj, 1)
+        init_count = storage.count()
+        init_count_obj = storage.count("State")
 
-        obj1 = City()
+        obj1 = State(name="n")
         obj1.save()
         count = storage.count()
-        count_obj = storage.count("City")
-        self.assertEqual(count, 2)
-        self.assertEqual(count_obj, 1)
-
-        obj2 = User()
-        obj2.save()
-        count = storage.count()
-        count_obj = storage.count("User")
-        self.assertEqual(count, 3)
-        self.assertEqual(count_obj, 1)
-
-        obj3 = Place()
-        obj3.save()
-        count = storage.count()
-        count_obj = storage.count("Place")
-        self.assertEqual(count, 4)
-        self.assertEqual(count_obj, 1)
-
-        obj4 = Review()
-        obj4.save()
-        count = storage.count()
-        count_obj = storage.count("Review")
-        self.assertEqual(count, 5)
-        self.assertEqual(count_obj, 1)
-
-        obj5 = Amenity()
-        obj5.save()
-        count = storage.count()
-        count_obj = storage.count("Amenity")
-        self.assertEqual(count, 6)
-        self.assertEqual(count_obj, 1)
+        count_obj = storage.count("State")
+        self.assertEqual(count, init_count + 1)
+        self.assertEqual(count_obj, init_count_obj + 1)
 
         storage.delete(obj)
         storage.delete(obj1)
-        storage.delete(obj2)
-        storage.delete(obj3)
-        storage.delete(obj4)
-        storage.delete(obj5)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_user(self):
+        """test count method that count the number of object of each class"""
+        d = {'email': 'ca', 'password': '123'}
+        obj = User(**d)
+        obj.save()
+        init_count = storage.count()
+        init_count_obj = storage.count("User")
+
+        obj1 = User(**d)
+        obj1.save()
+        count = storage.count()
+        count_obj = storage.count("User")
+        self.assertEqual(count, init_count + 1)
+        self.assertEqual(count_obj, init_count_obj + 1)
+
+        storage.delete(obj)
+        storage.delete(obj1)
