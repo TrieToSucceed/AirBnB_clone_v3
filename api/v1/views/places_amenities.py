@@ -71,20 +71,14 @@ def post_place_amenity(place_id, amenity_id):
     amenity_obj = storage.get("Amenity", amenity_id)
     if not amenity_obj:
         abort(404)
-    if getenv("HBNB_TYPE_STORAGE") == "db":
-        if amenity_obj in place_obj.amenities:
-            return jsonify(amenity_obj.to_dict()), 200
-        else:
-            place_obj.amenities.append(amenity_obj)
-            storage.save()
-            return jsonify(amenity_obj.to_dict()), 201
+
+    if amenity_obj in place_obj.amenities:
+        return jsonify(amenity_obj.to_dict()), 200
     else:
-        if amenity_id in place_obj.amenity_ids:
-            return jsonify(amenity_obj.to_dict()), 200
-        else:
-            place_obj.amenity_ids.append(amenity_obj)
-            storage.save()
-            return jsonify(amenity_obj.to_dict()), 201
+        place_obj.amenities.append(amenity_obj)
+        storage.save()
+        return jsonify(amenity_obj.to_dict()), 201
+
 
 '''
 @app_views.route("/reviews/<review_id>", strict_slashes=False, methods=['PUT'])
